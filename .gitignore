@@ -1,0 +1,29 @@
+# Ignore Node.js dependencies
+/frontend/node_modules/
+
+# Ignore Python virtual environment
+/backend/venv/
+
+# Ignore Electron build artifacts
+/electron-app/node_modules/
+/electron-app/out/
+/electron-app/dist/
+/electron-app/.electron/
+
+# Ignore any other build artifacts or generated files
+/frontend/build/
+/frontend/dist/
+/backend/__pycache__/
+/backend/*.pyc
+
+# Ignore environment-specific files
+/frontend/.env
+/backend/.env
+/backend/.venv
+
+# Ignore editor-specific files
+/frontend/.vscode/
+/backend/.vscode/
+/electron-app/.vscode/
+
+.DS_Store
