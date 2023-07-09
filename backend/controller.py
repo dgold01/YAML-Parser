@@ -1,4 +1,4 @@
-from flask import jsonify, Flask, send_file
+from flask import jsonify, Flask, send_file,Markup
 import os
 import yaml
 import markdown
@@ -53,15 +53,16 @@ def parseFiles(yaml_files):
     return yaml_data
 
 def processMardown(yaml_data):
-    #   for item in yaml_data:
-    #     for key, value in item.items():
-    #         if isinstance(value, str):
-    #             # Process the markdown syntax
-    #             print(value)
-    #             formatted_text = markdown.markdown(value)
-                
-    #             # Update the YAML data with the formatted text
-    #             item[key] = formatted_text
+    for item in yaml_data:
+        for key, value in item.items():
+            if key != "imageFileName":
+                if isinstance(value, str):
+                    print(value)
+                    # Process the markdown syntax
+                    print(value)
+                    formatted_text = markdown.markdown(value)
+                    # Update the YAML data with the formatted text
+                    item[key] = formatted_text
 
-
-        return yaml_data
+        print(yaml_data)
+    return yaml_data
