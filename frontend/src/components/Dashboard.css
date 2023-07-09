@@ -1,3 +1,12 @@
+.listContainer{
+  width: 50%;
+}
+
+.dashboardContainer{
+    display: flex;
+    flex-direction: row;
+
+}
 li {
     list-style: none;
 }
@@ -5,7 +14,7 @@ li {
     margin-top: 0;
     padding: 0;
     margin: 0;
-    display: inline;
+    display: inline-block;
     background: none;
     border: none;
     font-size: inherit;

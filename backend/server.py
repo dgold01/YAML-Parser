@@ -1,10 +1,18 @@
-from flask import Flask
-
-from router import blueprint            
+from flask import Flask, jsonify
 from flask_cors import CORS
+from flask import request
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
+
+
+
+
+from router import blueprint
+
 app.register_blueprint(blueprint)
+
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
