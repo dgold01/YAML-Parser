@@ -12,12 +12,13 @@ export default function DetailedView(props: DetailedViewProps) {
     useEffect(() => {
         const fetchImage = async () => {
             const imageURL = await getImage(props.fileData.imageFileName.innerHTML)
-            console.log(imageURL)
+            console.log(imageURL,'imageURL')
             setImageURL(imageURL as any)
+
         }
         if (props.fileData.imageFileName) fetchImage()
-
-    }, [])
+        
+    }, [props.fileData.imageFileName])
     return (
         <div className= {styles.container}>
             <div className = {styles.popup}>
@@ -30,7 +31,7 @@ export default function DetailedView(props: DetailedViewProps) {
                             <div dangerouslySetInnerHTML={{ __html: props.fileData.text.innerHTML }} />
                         </>
                     )}
-                    {props.fileData.imageFileName && <img className= {styles.image} src = {imageURL} alt="Your Image" />}
+                    {props.fileData.imageFileName  && imageURL &&  <img className= {styles.image} src = {imageURL} alt="Your Image"   />}
                 </div>
             </div>
         </div>
