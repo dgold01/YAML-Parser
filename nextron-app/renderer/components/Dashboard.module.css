@@ -1,0 +1,33 @@
+.listContainer {
+  width: 50%;
+  color: white;
+  margin: 100px;
+  font-size: 20px;
+  background-color: #00022e;
+  border-color: white;
+  border-style: solid;
+  border-radius: 20px;
+  padding: 20px;
+  list-style: none;
+}
+
+.dashboardContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.subHeading{
+  margin-top: -20px;
+}
+.titleButton {
+  
+  margin-top: 0;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  background: none;
+  border: none;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
