@@ -1,12 +1,14 @@
 from flask import jsonify, Flask, send_file,Markup
-import os
-import yaml
-import markdown
+from fileFinder import findYamlFile, findImage
+from MarkdownYAMLParser import parseFiles,processMardown
 
-
+# Returns YAML data as a JSON response 
 def getYAMLFiles():
+    # Gets array of file paths for YAML files
     yaml_files = findYamlFile()
+    #Parses the YAML files and returns the data
     yaml_data = parseFiles(yaml_files)
+    # Process any Markdown syntax and returns YAML data with HTML tags
     yaml_data = processMardown(yaml_data)
     return jsonify(yaml_data)
 
@@ -14,55 +16,20 @@ def getYAMLFiles():
 def getImageFile(filename):
  
     try:
-    
+        # gets the image file path based on the filename argument
         imagePath = findImage(filename) 
-    
+        # if image file is found, the file content is streamed as binary data directly to client in the response body. 
+        # Setting mimetype to 'image.jpeg' should let the client know how to handle the binary content. 
         if imagePath:
             return send_file(imagePath, mimetype='image.jpeg')
         else:
+            # Return a 404 error if the image file is not found
             return 'Image not found', 404
     except FileExistsError:
+        # Return a 404 error if there's an error finding the image
         return 'Image not found',404
 
 
 
-def findImage(filename):
-    for root, dirs, files in os.walk('/Users/dannygold/Documents/GitHub/YAML-PARSER/backend/mock-filesystem'):
-        for file in files:
-            if file == filename:
-                return os.path.join(root, file)
-    return None
-
-def findYamlFile():
-    yaml_files = []
-    for root, dirs, files in os.walk('/Users/dannygold/Documents/GitHub/YAML-PARSER/backend/mock-filesystem'):
-        for file in files:
-            if file.endswith('.yaml') or file.endswith('.yml'):
-                yaml_files.append(os.path.join(root, file))
-
-  
-    return yaml_files
 
 
-def parseFiles(yaml_files):
-    yaml_data = []
-    for file_path in yaml_files:
-        with open(file_path, 'r') as file:
-            data = yaml.safe_load(file)
-            yaml_data.append(data)
-    return yaml_data
-
-def processMardown(yaml_data):
-    for item in yaml_data:
-        for key, value in item.items():
-            if key != "imageFileName":
-                if isinstance(value, str):
-                    print(value)
-                    # Process the markdown syntax
-                    print(value)
-                    formatted_text = markdown.markdown(value)
-                    # Update the YAML data with the formatted text
-                    item[key] = formatted_text
-
-        print(yaml_data)
-    return yaml_data

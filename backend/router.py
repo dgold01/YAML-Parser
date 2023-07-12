@@ -1,44 +1,22 @@
 from flask import Blueprint
-from flask import Flask
 from flask import request
 from controller import getYAMLFiles,getImageFile
-from flask_cors import cross_origin
-import logging
-import sys
-from flask import jsonify
-from flask_cors import CORS
 
-logging.basicConfig(level=logging.INFO, filename='app.log', filemode='w', format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Create a StreamHandler to log messages to the console
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setLevel(logging.INFO)
-console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(console_formatter)
-
-# Get the root logger and add the console handler
-root_logger = logging.getLogger()
-root_logger.addHandler(console_handler)
-
-
+# Creates a Blueprint object to allow us to define routes and their associated functions
 blueprint = Blueprint('blueprint', __name__)
 
 
-
-
+# Defines a route which allows the front end to receive a array of YAML data corresponding to YAML files
 @blueprint.route('/files', methods=['GET'])
-
 def getFiles():
-    
     if request.method == 'GET':
+         # Call the getYAMLFiles() function to retrieve YAML files and return them as a response
         return getYAMLFiles()
 
-
-
+# Defines a route which allows the front end to receive binary data for a jpeg file by sending a post request and waits for the response.
 @blueprint.route('/image', methods=['POST'])
 def getImage():
     if request.method == 'POST':
-        logging.info('here')
         filename = request.json.get('filename')
         response = getImageFile(filename)
         return response

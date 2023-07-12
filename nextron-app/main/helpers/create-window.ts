@@ -5,6 +5,8 @@ import {
 } from 'electron';
 import Store from 'electron-store';
 
+
+
 export default (windowName: string, options: BrowserWindowConstructorOptions): BrowserWindow => {
   const key = 'window-state';
   const name = `window-state-${windowName}`;
@@ -73,7 +75,11 @@ export default (windowName: string, options: BrowserWindowConstructorOptions): B
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      // fuses: {
+      //   EnableNodeCliInspectArguments: true,
+      // },
       ...options.webPreferences,
+      
     },
   };
   win = new BrowserWindow(browserOptions);

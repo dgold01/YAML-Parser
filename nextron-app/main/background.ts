@@ -16,6 +16,11 @@ if (isProd) {
   const mainWindow = createWindow('main', {
     width: 1000,
     height: 600,
+    webPreferences: {
+      // fuses: {
+      //   EnableNodeCliInspectArguments: true,
+      // },
+    },
   });
 
   if (isProd) {

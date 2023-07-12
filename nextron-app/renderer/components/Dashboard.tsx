@@ -2,35 +2,40 @@ import { useEffect, useState } from "react";
 import { getFileData } from "../localAPIService/localAPIService";
 import DetailedView from './DetailedView'
 import styles from './Dashboard.module.css'
+
+export interface FileData {
+    title: HTMLDivElement;
+    text: HTMLDivElement;
+    imageFileName?: HTMLDivElement;
+  }
+  
 export default function Dashboard() {
-    const [fileData, setFileData] =  useState<any[]>([])
+    const [fileData, setFileData] = useState<FileData[]>([]);
     const [showDetail, setShowDetail] = useState(false)
-    const [selectedFile, setSelectedFile] = useState(null)
+    const [selectedFile, setSelectedFile] = useState<null | FileData>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             const data = await getFileData()
-            
+            //Here we loop through each YAML object in the array, and assign the value for eah key to a new htmlElement
+            //This is so the client recognises the HTML tags that were created in the backend. 
+            //We update each key value with the new htmlElement and set the state of the fileData to this updated data
             for (let file of data) {
                 for (let [key, value] of Object.entries(file)) {
-                    console.log(file)
+                    // Creates a new HTMLDivElement and assign it to the current file[key]
                     let htmlElement = document.createElement('div');
-                    htmlElement.innerHTML = value as any;
+                    htmlElement.innerHTML = value as string;
                     file[key] = htmlElement
                 }
             }
-            console.log(data)
-            setFileData(data as any)
+            setFileData(data)
         }
         fetchData()
     }, [])
 
 
-
-
-
-    function handleTitleClick(item: any) {
+    function handleTitleClick(item: FileData) {
         setSelectedFile(item)
-        // setShowDetail(!showDetail)
         setShowDetail(true)
     }
     return (
@@ -41,6 +46,7 @@ export default function Dashboard() {
                 {fileData && fileData.map((item, index) => (
                     <li key={index}>
                         <a className= {styles.titleButton} onClick={() => { handleTitleClick(item) }}> {fileData && (
+                            //Renders the title of the file by setting the innerHTML of the div element to the HTML content of item.title.innerHTML
                             <div dangerouslySetInnerHTML={{ __html: item.title.innerHTML}} />
                         )}</a>
                     </li>
